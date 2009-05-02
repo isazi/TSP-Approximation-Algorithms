@@ -22,6 +22,7 @@
 #include <sstream>
 #include <string>
 #include <ctime>
+#include <cmath>
 #include <map>
 
 using namespace asd;
@@ -118,6 +119,62 @@ int main(int argc, char *argv[]) {
 	else if ( endpoint ) {
 		/* Metrica endpoint */
 
+		double beta = grafo.getBeta();
+		double betaC = (pow(beta, 2.0) - pow(1 - beta, 2.0)) / (beta * (1 - beta));
+		double betaN = (1 - beta) / beta;
+		double betaNx = beta / (1 - beta);
+		arco< w_type > *tempArco = 0, *minArco = 0, *maxArco = 0;
+
+		for ( unsigned int i(0); i < n; i++ ) {
+			vertice *temp = grafo.aggiungiVertice();
+			temp->setKey(i);
+		}
+
+		for ( Grafo< w_type >::vertice_iterator x = grafo.lista_vertici.begin(); x != --(grafo.lista_vertici.end()); x++ ) {
+			bool first = true;
+			Grafo< w_type >::vertice_iterator temp = x;
+			for ( Grafo< w_type >::vertice_iterator y = ++temp; y != grafo.lista_vertici.end(); y++ ) {
+				double Bmin = (2 * pow(beta, 2.0)) / (1 - beta);
+				double Bmax = (1 - beta) / (2 * pow(beta, 2.0));
+
+				if (  y == ++(grafo.lista_vertici.begin()) && x == grafo.lista_vertici.begin() ) {
+					tempArco = grafo.aggiungiArco(*x, *y, static_cast< w_type >(1.0 + (maxPeso * (rand() / (RAND_MAX + 1.0)))));
+					minArco = tempArco;
+					maxArco = tempArco;
+				}
+				else {
+					tempArco = grafo.aggiungiArco(*x, *y, static_cast< w_type >(1.0 + (maxPeso * (rand() / (RAND_MAX + 1.0)))));
+					tempArco->costo = static_cast< w_type >((tempArco->costo * betaC) + betaN);
+					if ( first ) {
+						Grafo< w_type >::vertice_iterator tempVertice = x;
+						tempArco->costo *= grafo.getPesoArcoCompreso(*(--tempVertice), *x);
+						first = false;
+					}
+					else {
+						Grafo< w_type >::vertice_iterator tempVertice = y;
+						tempArco->costo *= grafo.getPesoArcoCompreso(*x, *(--tempVertice));
+					}
+
+					if ( grafo.sonoArchiAdiacenti(tempArco, minArco) ) {
+						Bmin = betaNx;
+					}
+					if ( grafo.sonoArchiAdiacenti(tempArco, maxArco) ) {
+						Bmax = betaN;
+					}
+
+					if ( tempArco->costo > (Bmin * minArco->costo) || tempArco->costo < (Bmax * maxArco->costo) ) {
+						tempArco->costo = static_cast< w_type >(floor((Bmax * maxArco->costo) + (((Bmin * minArco->costo) - (Bmax * maxArco->costo)) * (rand() / (RAND_MAX + 1.0)))));
+					}
+
+					if ( tempArco-> costo > maxArco->costo ) {
+						maxArco = tempArco;
+					}
+					if ( tempArco->costo < minArco->costo ) {
+						minArco = tempArco;
+					}
+				}
+			}
+		}
 	}
 	else {
 		Space< w_type > spazio;

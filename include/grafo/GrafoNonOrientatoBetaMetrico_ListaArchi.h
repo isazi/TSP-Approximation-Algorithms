@@ -76,12 +76,7 @@ template< class T > bool GrafoNonOrientatoBetaMetrico_ListaArchi< T >::verifyBet
 
 				if ( static_cast< double >(xy->costo) > static_cast< double >(beta * (xz->costo + yz->costo)) ) {
 					if ( correct ) {
-						if ( (beta * (xz->costo + yz->costo)) - 1 > 0 ) {
-							xy->costo = static_cast< T >((beta * (xz->costo + yz->costo)) - 0.001);
-						}
-						else {
-							xy->costo = 0;
-						}
+						xy->costo = static_cast< T >(floor(beta * (xz->costo + yz->costo)));
 						retval = false;
 					}
 					else {
@@ -91,12 +86,7 @@ template< class T > bool GrafoNonOrientatoBetaMetrico_ListaArchi< T >::verifyBet
 
 				if ( static_cast< double >(xz->costo) > static_cast< double >(beta * (xy->costo + yz->costo)) ) {
 					if ( correct ) {
-						if ( (beta * (xy->costo + yz->costo)) - 1 > 0 ) {
-							xz->costo = static_cast< T >((beta * (xy->costo + yz->costo)) - 0.001);
-						}
-						else {
-							xz->costo = 0;
-						}
+						xz->costo = static_cast< T >(floor(beta * (xy->costo + yz->costo)));
 						retval = false;
 					}
 					else {
@@ -106,12 +96,7 @@ template< class T > bool GrafoNonOrientatoBetaMetrico_ListaArchi< T >::verifyBet
 
 				if ( static_cast< double >(yz->costo) > static_cast< double >(beta * (xy->costo + xz->costo)) ) {
 					if ( correct ) {
-						if ( (beta * (xy->costo + xz->costo)) - 1 > 0 ) {
-							yz->costo = static_cast< T >((beta * (xz->costo + xy->costo)) - 0.001);
-						}
-						else {
-							yz->costo = 0;
-						}
+						yz->costo = static_cast< T >(floor(beta * (xy->costo + xz->costo)));
 						retval = false;
 					}
 					else {
