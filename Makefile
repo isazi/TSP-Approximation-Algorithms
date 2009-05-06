@@ -6,10 +6,10 @@ LIBS=-lrt
 ARGUMENT=lib/ArgumentList.o
 BLOSSOMV=lib/misc.o lib/PMduals.o lib/PMexpand.o lib/PMinit.o lib/PMinterface.o lib/PMmain.o lib/PMrepair.o lib/PMshrink.o lib/MinCost.o
 
-all: generatore_grafi doubleMST refinedDoubleMST christofides cycleCover distribuzionePesi betaMetricita
+all: generatoreGrafi doubleMST refinedDoubleMST christofides cycleCover distribuzionePesi betaMetricita
 
-generatore_grafi: generatore_grafi.cpp
-	$(CC) $(CFLAGS) $(INCLUDE) -o bin/generatore_grafi generatore_grafi.cpp $(ARGUMENT)
+generatoreGrafi: generatoreGrafi.cpp
+	$(CC) $(CFLAGS) $(INCLUDE) -o bin/generatoreGrafi generatoreGrafi.cpp $(ARGUMENT)
 
 doubleMST: doubleMST.cpp
 	$(CC) $(CFLAGS) $(INCLUDE) -o bin/doubleMST doubleMST.cpp $(ARGUMENT)

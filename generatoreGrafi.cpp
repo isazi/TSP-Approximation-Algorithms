@@ -1,7 +1,7 @@
 /******************************************************************************\
 *
-* File:          generatoreSperimentale.cpp
-* Creation date: March 7, 2009
+* File:          generatoreGrafi.cpp
+* Creation date: September 27, 2008
 * Author:        Alessio Sclocco
 *
 * License:       See the end of this file for license information
