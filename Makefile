@@ -30,7 +30,7 @@ betaMetricita: betaMetricita.cpp
 	$(CC) $(CFLAGS) $(INCLUDE) -o bin/betaMetricita betaMetricita.cpp $(ARGUMENT)
 
 clean:
-	rm bin/generatore_grafi
+	rm bin/generatoreGrafi
 	rm bin/doubleMST
 	rm bin/refinedDoubleMST
 	rm bin/christofides
