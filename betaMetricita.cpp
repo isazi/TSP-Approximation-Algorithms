@@ -38,7 +38,7 @@ int mappaDistribuzione(double d);
 
 int main(int argc, char *argv[]) {
 	bool verbose = false;
-	unsigned int distribuzione[11] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	unsigned int distribuzione[21] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 	double maxB = 0.5, minB = std::numeric_limits< double >::max(), averageB = 0, tempB = 1.0;
 	/* Argomenti passati all'eseguibile */
 	ArgumentList args = ArgumentList(argc, argv);
@@ -88,11 +88,8 @@ int main(int argc, char *argv[]) {
 
 				/* Primo vincolo */
 				tempB = 1.01;
-				while ( static_cast< double >(xy) < static_cast< double >(tempB * (xz + yz)) && tempB > 0.50 ) {
+				while ( static_cast< double >(xy) < static_cast< double >(tempB * (xz + yz)) && tempB >= 0 ) {
 					tempB -= 0.01;
-				}
-				if ( tempB < 0.50 ) {
-					tempB = 0.50;
 				}
 				if ( tempB > maxB ) {
 					maxB = tempB;
@@ -101,17 +98,14 @@ int main(int argc, char *argv[]) {
 					minB = tempB;
 				}
 				distribuzione[mappaDistribuzione(tempB)] += 1;
-				if ( mappaDistribuzione(tempB) != 10 ) {
+				if ( mappaDistribuzione(tempB) != 20 ) {
 					averageB += tempB;
 				}
 
 				/* Secondo vincolo */
 				tempB = 1.01;
-				while ( static_cast< double >(xz) < static_cast< double >(tempB * (xy + yz)) && tempB > 0.50 ) {
+				while ( static_cast< double >(xz) < static_cast< double >(tempB * (xy + yz)) && tempB >= 0 ) {
 					tempB -= 0.01;
-				}
-				if ( tempB < 0.50 ) {
-					tempB = 0.50;
 				}
 				if ( tempB > maxB ) {
 					maxB = tempB;
@@ -120,17 +114,14 @@ int main(int argc, char *argv[]) {
 					minB = tempB;
 				}
 				distribuzione[mappaDistribuzione(tempB)] += 1;
-				if ( mappaDistribuzione(tempB) != 10 ) {
+				if ( mappaDistribuzione(tempB) != 20 ) {
 					averageB += tempB;
 				}
 
 				/* Terzo vincolo */
 				tempB = 1.01;
-				while ( static_cast< double >(yz) < static_cast< double >(tempB * (xz + xy)) && tempB > 0.50 ) {
+				while ( static_cast< double >(yz) < static_cast< double >(tempB * (xz + xy)) && tempB >= 0 ) {
 					tempB -= 0.01;
-				}
-				if ( tempB < 0.50 ) {
-					tempB = 0.50;
 				}
 				if ( tempB > maxB ) {
 					maxB = tempB;
@@ -139,14 +130,14 @@ int main(int argc, char *argv[]) {
 					minB = tempB;
 				}
 				distribuzione[mappaDistribuzione(tempB)] += 1;
-				if ( mappaDistribuzione(tempB) != 10 ) {
+				if ( mappaDistribuzione(tempB) != 20 ) {
 					averageB += tempB;
 				}
 			}
 		}
 	}
 
-	averageB /= (counter - distribuzione[10]);
+	averageB /= (counter - distribuzione[20]);
 
 	cout << fixed << setprecision (3) << endl;
 	cout << "Il valore massimo di beta nel grafo è pari a: " << maxB << endl;
@@ -155,26 +146,36 @@ int main(int argc, char *argv[]) {
 	cout << endl;
 	cout << "La distribuzione è la seguente: " << endl;
 	cout << endl;
-	cout << "0.50 - 0.55 : " << static_cast< double >(((static_cast< double >(distribuzione[0]) / 100) * 100) / (counter / 100)) << "%" << endl;
-	cout << "0.56 - 0.60 : " << static_cast< double >(((static_cast< double >(distribuzione[1]) / 100) * 100) / (counter / 100)) << "%" << endl;
-	cout << "0.61 - 0.65 : " << static_cast< double >(((static_cast< double >(distribuzione[2]) / 100) * 100) / (counter / 100)) << "%" << endl;
-	cout << "0.66 - 0.70 : " << static_cast< double >(((static_cast< double >(distribuzione[3]) / 100) * 100) / (counter / 100)) << "%" << endl;
-	cout << "0.71 - 0.75 : " << static_cast< double >(((static_cast< double >(distribuzione[4]) / 100) * 100) / (counter / 100)) << "%" << endl;
-	cout << "0.76 - 0.80 : " << static_cast< double >(((static_cast< double >(distribuzione[5]) / 100) * 100) / (counter / 100)) << "%" << endl;
-	cout << "0.81 - 0.85 : " << static_cast< double >(((static_cast< double >(distribuzione[6]) / 100) * 100) / (counter / 100)) << "%" << endl;
-	cout << "0.86 - 0.90 : " << static_cast< double >(((static_cast< double >(distribuzione[7]) / 100) * 100) / (counter / 100)) << "%" << endl;
-	cout << "0.91 - 0.95 : " << static_cast< double >(((static_cast< double >(distribuzione[8]) / 100) * 100) / (counter / 100)) << "%" << endl;
-	cout << "0.96 - 1.00 : " << static_cast< double >(((static_cast< double >(distribuzione[9]) / 100) * 100) / (counter / 100)) << "%" << endl;
-	cout << "     > 1.00 : " << static_cast< double >(((static_cast< double >(distribuzione[10]) / 100) * 100) / (counter / 100)) << "%" << endl;
+	cout << "0.00 - 0.05 : " << static_cast< double >(((static_cast< double >(distribuzione[0]) / 100) * 100) / (counter / 100)) << "%" << endl;
+	cout << "0.06 - 0.10 : " << static_cast< double >(((static_cast< double >(distribuzione[1]) / 100) * 100) / (counter / 100)) << "%" << endl;
+	cout << "0.11 - 0.15 : " << static_cast< double >(((static_cast< double >(distribuzione[2]) / 100) * 100) / (counter / 100)) << "%" << endl;
+	cout << "0.16 - 0.20 : " << static_cast< double >(((static_cast< double >(distribuzione[3]) / 100) * 100) / (counter / 100)) << "%" << endl;
+	cout << "0.21 - 0.25 : " << static_cast< double >(((static_cast< double >(distribuzione[4]) / 100) * 100) / (counter / 100)) << "%" << endl;
+	cout << "0.26 - 0.30 : " << static_cast< double >(((static_cast< double >(distribuzione[5]) / 100) * 100) / (counter / 100)) << "%" << endl;
+	cout << "0.31 - 0.35 : " << static_cast< double >(((static_cast< double >(distribuzione[6]) / 100) * 100) / (counter / 100)) << "%" << endl;
+	cout << "0.36 - 0.40 : " << static_cast< double >(((static_cast< double >(distribuzione[7]) / 100) * 100) / (counter / 100)) << "%" << endl;
+	cout << "0.41 - 0.45 : " << static_cast< double >(((static_cast< double >(distribuzione[8]) / 100) * 100) / (counter / 100)) << "%" << endl;
+	cout << "0.46 - 0.50 : " << static_cast< double >(((static_cast< double >(distribuzione[9]) / 100) * 100) / (counter / 100)) << "%" << endl;
+	cout << "0.51 - 0.55 : " << static_cast< double >(((static_cast< double >(distribuzione[10]) / 100) * 100) / (counter / 100)) << "%" << endl;
+	cout << "0.56 - 0.60 : " << static_cast< double >(((static_cast< double >(distribuzione[11]) / 100) * 100) / (counter / 100)) << "%" << endl;
+	cout << "0.61 - 0.65 : " << static_cast< double >(((static_cast< double >(distribuzione[12]) / 100) * 100) / (counter / 100)) << "%" << endl;
+	cout << "0.66 - 0.70 : " << static_cast< double >(((static_cast< double >(distribuzione[13]) / 100) * 100) / (counter / 100)) << "%" << endl;
+	cout << "0.71 - 0.75 : " << static_cast< double >(((static_cast< double >(distribuzione[14]) / 100) * 100) / (counter / 100)) << "%" << endl;
+	cout << "0.76 - 0.80 : " << static_cast< double >(((static_cast< double >(distribuzione[15]) / 100) * 100) / (counter / 100)) << "%" << endl;
+	cout << "0.81 - 0.85 : " << static_cast< double >(((static_cast< double >(distribuzione[16]) / 100) * 100) / (counter / 100)) << "%" << endl;
+	cout << "0.86 - 0.90 : " << static_cast< double >(((static_cast< double >(distribuzione[17]) / 100) * 100) / (counter / 100)) << "%" << endl;
+	cout << "0.91 - 0.95 : " << static_cast< double >(((static_cast< double >(distribuzione[18]) / 100) * 100) / (counter / 100)) << "%" << endl;
+	cout << "0.96 - 1.00 : " << static_cast< double >(((static_cast< double >(distribuzione[19]) / 100) * 100) / (counter / 100)) << "%" << endl;
+	cout << "     > 1.00 : " << static_cast< double >(((static_cast< double >(distribuzione[20]) / 100) * 100) / (counter / 100)) << "%" << endl;
 	cout << endl;
 
 	return 0;
 }
 
 int mappaDistribuzione(double d) {
-	unsigned int bottom = 50, top = 55, number = static_cast< unsigned int >(d * 100);
+	unsigned int bottom = 0, top = 5, number = static_cast< unsigned int >(d * 100);
 
-	for ( int i(0); i < 10; i++ ) {
+	for ( int i(0); i < 20; i++ ) {
 		if ( bottom <= number && number <= top ) {
 			return i;
 		}
@@ -184,7 +185,7 @@ int mappaDistribuzione(double d) {
 		}
 	}
 
-	return 10;
+	return 20;
 }
 
 /******************************************************************************\
